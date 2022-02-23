@@ -8,3 +8,16 @@ type Shape interface {
 	GetInput()
 	CreationText()
 }
+
+func GetShape(name string) Shape {
+	switch name {
+	case "square":
+		return NewSquare()
+	case "circle":
+		return NewCircle()
+	case "triangle":
+		return nil
+	default:
+		return nil
+	}
+}

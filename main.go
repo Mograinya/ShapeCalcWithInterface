@@ -22,20 +22,9 @@ func getShapeName() string {
 	return strings.ToLower(n)
 }
 
-func getShape(name string) shapes.Shape {
-	switch name {
-	case "square":
-		return shapes.NewSquare()
-	case "circle":
-		return shapes.NewCircle()
-	default:
-		return nil
-	}
-}
-
 func main() {
 	n := getShapeName()
-	s := getShape(n)
+	s := shapes.GetShape(n)
 
 	if s == nil {
 		fmt.Println("Unknown shape")
