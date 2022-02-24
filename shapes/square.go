@@ -39,6 +39,6 @@ func (sq *Square) GetInput() {
 	fmt.Scanf("%f", &sq.side)
 }
 
-func (sq Square) CreationText() {
+func (sq Square) PrintCreationText() {
 	fmt.Printf("A Square with %f sides is created", sq.side)
 }

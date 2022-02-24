@@ -9,7 +9,7 @@ import (
 //----------------------------------------------------------------
 
 func printShapeSummary(s shapes.Shape) {
-	s.CreationText()
+	s.PrintCreationText()
 	fmt.Printf("\nThe area of this figure is %f", s.Area())
 	fmt.Printf("\nThe perimeter of this figure is %f", s.Perimeter())
 }

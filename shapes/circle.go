@@ -40,6 +40,6 @@ func (c *Circle) GetInput() {
 	fmt.Scanf("%f", &c.radius)
 }
 
-func (c Circle) CreationText() {
+func (c Circle) PrintCreationText() {
 	fmt.Printf("A Circle with %f radius is created", c.radius)
 }

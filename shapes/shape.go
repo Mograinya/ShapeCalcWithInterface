@@ -6,8 +6,14 @@ type Shape interface {
 	Perimeter() float64
 	InputPrompt()
 	GetInput()
-	CreationText()
+	PrintCreationText()
 }
+
+//var shapeConstructorMap = map[string]func() Square{
+//	"square": NewSquare(),
+//	"circle": NewCircle(),
+//  "triangle": NewTriangle(),
+//}
 
 func GetShape(name string) Shape {
 	switch name {
@@ -16,7 +22,7 @@ func GetShape(name string) Shape {
 	case "circle":
 		return NewCircle()
 	case "triangle":
-		return nil
+		return NewTriangle()
 	default:
 		return nil
 	}
