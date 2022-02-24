@@ -1,6 +1,7 @@
 package main
 
 import (
+	"ShapeCalcWithInterface/consoleHelper"
 	"ShapeCalcWithInterface/shapes"
 	"fmt"
 	"strings"
@@ -14,10 +15,8 @@ func printShapeAreaAndPerimeterInfo(s shapes.Shape) {
 }
 
 func getShapeName() string {
-	var n string
-	fmt.Scanf("%s", &n)
-	fmt.Scanln() // Избавиться от несчитанного \n
-	return strings.ToLower(n)
+	result := consoleHelper.HandleUserInputString(1, "Please enter only one word.")
+	return strings.ToLower(result[0])
 }
 
 func main() {
@@ -25,7 +24,9 @@ func main() {
 		fmt.Println("Enter type of figure. Enter 'q' to quit:")
 
 		n := getShapeName()
-		if n == "q" || n == "Q" { // Проверка на запрос выхода
+		if n == "" {
+			continue
+		} else if n == "q" {
 			fmt.Println("User requested exit.")
 			break
 		}
@@ -38,7 +39,6 @@ func main() {
 
 		s.InputPrompt()
 		s.GetInput()
-		fmt.Scanln() // Избавиться от несчитанного \n
 		s.PrintCreationText()
 		printShapeAreaAndPerimeterInfo(s)
 		fmt.Println("")

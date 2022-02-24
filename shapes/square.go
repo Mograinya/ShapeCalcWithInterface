@@ -1,8 +1,8 @@
 package shapes
 
 import (
+	"ShapeCalcWithInterface/consoleHelper"
 	"fmt"
-	"log"
 )
 
 type Square struct {
@@ -11,16 +11,6 @@ type Square struct {
 
 func NewSquare() *Square {
 	return &Square{side: 0}
-}
-
-func (sq *Square) SetDimensions(i interface{}) {
-	value, ok := i.(float64)
-
-	if ok {
-		sq.side = value
-	} else {
-		log.Print("Ошибка задания стороны квадрата.")
-	}
 }
 
 func (sq Square) Area() float64 {
@@ -36,7 +26,13 @@ func (sq Square) InputPrompt() {
 }
 
 func (sq *Square) GetInput() {
-	fmt.Scanf("%f", &sq.side)
+	for {
+		r := consoleHelper.HandleUserInputFloat64(1, "Please enter one number")
+		if r != nil {
+			sq.side = r[0]
+			break
+		}
+	}
 }
 
 func (sq Square) PrintCreationText() {
