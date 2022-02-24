@@ -8,29 +8,40 @@ import (
 
 //----------------------------------------------------------------
 
-func printShapeSummary(s shapes.Shape) {
-	s.PrintCreationText()
+func printShapeAreaAndPerimeterInfo(s shapes.Shape) {
 	fmt.Printf("\nThe area of this figure is %f", s.Area())
 	fmt.Printf("\nThe perimeter of this figure is %f", s.Perimeter())
 }
 
 func getShapeName() string {
 	var n string
-	fmt.Println("Enter type of figure:")
 	fmt.Scanf("%s", &n)
 	fmt.Scanln() // Избавиться от несчитанного \n
 	return strings.ToLower(n)
 }
 
 func main() {
-	n := getShapeName()
-	s := shapes.GetShape(n)
+	for {
+		fmt.Println("Enter type of figure. Enter 'q' to quit:")
 
-	if s == nil {
-		fmt.Println("Unknown shape")
-		return
+		n := getShapeName()
+		if n == "q" || n == "Q" { // Проверка на запрос выхода
+			fmt.Println("User requested exit.")
+			break
+		}
+
+		s := shapes.GetShape(n)
+		if s == nil {
+			fmt.Println("Unknown shape")
+			continue
+		}
+
+		s.InputPrompt()
+		s.GetInput()
+		fmt.Scanln() // Избавиться от несчитанного \n
+		s.PrintCreationText()
+		printShapeAreaAndPerimeterInfo(s)
+		fmt.Println("")
+		fmt.Println("")
 	}
-	s.InputPrompt()
-	s.GetInput()
-	printShapeSummary(s)
 }

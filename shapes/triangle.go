@@ -42,7 +42,5 @@ func (c *Triangle) GetInput() {
 }
 
 func (c Triangle) PrintCreationText() {
-	//fmt.Printf("A Triangle with %f, %f, %f sides is created", c.sideA, c.sideB, c.sideC)
-
 	fmt.Printf("A Triangle with %f, %f, %f sides is created", c.sideA, c.sideB, c.sideC)
 }
