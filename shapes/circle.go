@@ -1,8 +1,8 @@
 package shapes
 
 import (
+	"ShapeCalcWithInterface/consoleHelper"
 	"fmt"
-	"log"
 	"math"
 )
 
@@ -12,16 +12,6 @@ type Circle struct {
 
 func NewCircle() *Circle {
 	return &Circle{radius: 0}
-}
-
-func (c *Circle) SetDimensions(i interface{}) {
-	value, ok := i.(float64)
-
-	if ok {
-		c.radius = value
-	} else {
-		log.Print("Ошибка задания радиуса круга.")
-	}
 }
 
 func (c Circle) Area() float64 {
@@ -37,9 +27,15 @@ func (c Circle) InputPrompt() {
 }
 
 func (c *Circle) GetInput() {
-	fmt.Scanf("%f", &c.radius)
+	for {
+		r := consoleHelper.HandleUserInputFloat64(1, "Please enter one number")
+		if r != nil {
+			c.radius = r[0]
+			break
+		}
+	}
 }
 
-func (c Circle) CreationText() {
+func (c Circle) PrintCreationText() {
 	fmt.Printf("A Circle with %f radius is created", c.radius)
 }
