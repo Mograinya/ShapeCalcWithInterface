@@ -23,7 +23,7 @@ func (c Circle) Perimeter() float64 {
 }
 
 func (c Circle) InputPrompt() {
-	fmt.Println("Enter the side of a Square:")
+	fmt.Println("Enter the radius of a Circle:")
 }
 
 func (c *Circle) GetInput() {
