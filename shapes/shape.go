@@ -1,28 +1,30 @@
 package shapes
 
+import "fmt"
+
 type Shape interface {
 	Area() float64
 	Perimeter() float64
-	InputPrompt()
-	GetInput()
+	DimensionsInputPrompt()
+	GetDimensionsInput()
 	PrintCreationText()
 }
 
-//var shapeConstructorMap = map[string]func() Square{
-//	"square": NewSquare(),
-//	"circle": NewCircle(),
-//  "triangle": NewTriangle(),
-//}
+var shapeConstructorMap = map[string]Shape{
+	"square":   NewSquare(),
+	"circle":   NewCircle(),
+	"triangle": NewTriangle(),
+}
 
 func GetShape(name string) Shape {
-	switch name {
-	case "square":
-		return NewSquare()
-	case "circle":
-		return NewCircle()
-	case "triangle":
-		return NewTriangle()
-	default:
-		return nil
+	if s, ok := shapeConstructorMap[name]; ok {
+		return s
 	}
+
+	return nil
+}
+
+func PrintShapeCalculations(s Shape) {
+	fmt.Printf("\nThe area of this figure is %f", s.Area())
+	fmt.Printf("\nThe perimeter of this figure is %f", s.Perimeter())
 }

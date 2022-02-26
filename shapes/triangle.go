@@ -23,11 +23,11 @@ func (t Triangle) Perimeter() float64 {
 	return t.a + t.b + t.c
 }
 
-func (t Triangle) InputPrompt() {
+func (t Triangle) DimensionsInputPrompt() {
 	fmt.Println("Enter three sides of a triangle (separated with spaces):")
 }
 
-func (t *Triangle) GetInput() {
+func (t *Triangle) GetDimensionsInput() {
 	for {
 		r := consoleHelper.HandleUserInputFloat64(3, "Please enter three numbers")
 		if r != nil {

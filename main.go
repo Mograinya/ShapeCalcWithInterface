@@ -9,15 +9,33 @@ import (
 
 //----------------------------------------------------------------
 
-func printShapeAreaAndPerimeterInfo(s shapes.Shape) {
-	fmt.Printf("\nThe area of this figure is %f", s.Area())
-	fmt.Printf("\nThe perimeter of this figure is %f", s.Perimeter())
-}
-
 func getShapeName() string {
 	result := consoleHelper.HandleUserInputString(1, "Please enter only one word.")
 	return strings.ToLower(result[0])
 }
+
+//
+//func getShapeOrCommandInput() (s shapes.Shape, retry bool, quit bool) {
+//	s = nil
+//	retry = false
+//	quit = false
+//
+//	n := getShapeName()
+//	switch n {
+//	case "": //Некорректный ввод
+//		return nil, true, false
+//	case "q":
+//		fmt.Println("User requested exit.")
+//		return nil, false, true
+//	default:
+//		if s := shapes.GetShape(n); s == nil {
+//			fmt.Println("Unknown shape")
+//			return nil, true, false
+//		} else {
+//			return s, false, false
+//		}
+//	}
+//}
 
 func main() {
 	for {
@@ -37,10 +55,17 @@ func main() {
 			continue
 		}
 
-		s.InputPrompt()
-		s.GetInput()
+		//s, retry, quit := getShapeOrCommandInput()
+		//if quit {
+		//	break
+		//} else if retry {
+		//	continue
+		//}
+
+		s.DimensionsInputPrompt()
+		s.GetDimensionsInput()
 		s.PrintCreationText()
-		printShapeAreaAndPerimeterInfo(s)
+		shapes.PrintShapeCalculations(s)
 		fmt.Println("")
 		fmt.Println("")
 	}

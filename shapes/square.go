@@ -21,11 +21,11 @@ func (sq Square) Perimeter() float64 {
 	return 4 * sq.side
 }
 
-func (sq Square) InputPrompt() {
+func (sq Square) DimensionsInputPrompt() {
 	fmt.Println("Enter the side of a Square:")
 }
 
-func (sq *Square) GetInput() {
+func (sq *Square) GetDimensionsInput() {
 	for {
 		r := consoleHelper.HandleUserInputFloat64(1, "Please enter one number")
 		if r != nil {

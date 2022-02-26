@@ -22,11 +22,11 @@ func (c Circle) Perimeter() float64 {
 	return 2 * math.Pi * c.radius
 }
 
-func (c Circle) InputPrompt() {
+func (c Circle) DimensionsInputPrompt() {
 	fmt.Println("Enter the radius of a Circle:")
 }
 
-func (c *Circle) GetInput() {
+func (c *Circle) GetDimensionsInput() {
 	for {
 		r := consoleHelper.HandleUserInputFloat64(1, "Please enter one number")
 		if r != nil {
