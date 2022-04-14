@@ -5,9 +5,8 @@ import "fmt"
 type Shape interface {
 	Area() float64
 	Perimeter() float64
-	DimensionsInputPrompt()
-	GetDimensionsInput()
-	PrintCreationText()
+	DimensionsInputPrompt() (string, int)
+	CreateShape(f []float64) string
 }
 
 var shapeConstructorMap = map[string]Shape{
@@ -24,7 +23,17 @@ func GetShape(name string) Shape {
 	return nil
 }
 
+func GetShapesList() []string {
+	result := make([]string, len(shapeConstructorMap))
+	index := 0
+	for k := range shapeConstructorMap {
+		result[index] = k
+		index++
+	}
+	return result
+}
+
 func PrintShapeCalculations(s Shape) {
-	fmt.Printf("\nThe area of this figure is %f", s.Area())
-	fmt.Printf("\nThe perimeter of this figure is %f", s.Perimeter())
+	fmt.Printf("The area of this figure is %g\n", s.Area())
+	fmt.Printf("The perimeter of this figure is %g\n\n\n", s.Perimeter())
 }

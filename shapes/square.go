@@ -1,7 +1,6 @@
 package shapes
 
 import (
-	"ShapeCalcWithInterface/consoleHelper"
 	"fmt"
 )
 
@@ -21,20 +20,11 @@ func (sq Square) Perimeter() float64 {
 	return 4 * sq.side
 }
 
-func (sq Square) DimensionsInputPrompt() {
-	fmt.Println("Enter the side of a Square:")
+func (sq Square) DimensionsInputPrompt() (string, int) {
+	return "Enter the side of a Square:", 1
 }
 
-func (sq *Square) GetDimensionsInput() {
-	for {
-		r := consoleHelper.HandleUserInputFloat64(1, "Please enter one number")
-		if r != nil {
-			sq.side = r[0]
-			break
-		}
-	}
-}
-
-func (sq Square) PrintCreationText() {
-	fmt.Printf("A Square with %f sides is created", sq.side)
+func (sq *Square) CreateShape(f []float64) string {
+	sq.side = f[0]
+	return fmt.Sprintf("A Square with %g sides is created", sq.side)
 }

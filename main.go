@@ -4,67 +4,103 @@ import (
 	"ShapeCalcWithInterface/consoleHelper"
 	"ShapeCalcWithInterface/shapes"
 	"fmt"
+	"strconv"
 	"strings"
 )
 
-//----------------------------------------------------------------
+var quitMessage = "User requested exit."
 
-func getShapeName() string {
-	result := consoleHelper.HandleUserInputString(1, "Please enter only one word.")
-	return strings.ToLower(result[0])
+func parseInitialInput(input []string) (handled, quit bool, message string) {
+	if len(input) != 1 {
+		return true, false, "Too many arguments"
+	}
+
+	if input[0] == "q" {
+		return true, true, quitMessage
+	}
+
+	if input[0] == "shapes" {
+		allShapes := strings.Join(shapes.GetShapesList(), ", ")
+		return true, false, fmt.Sprintf("Acceptable shape names: %s\n", allShapes)
+	}
+
+	return false, false, ""
 }
 
-//
-//func getShapeOrCommandInput() (s shapes.Shape, retry bool, quit bool) {
-//	s = nil
-//	retry = false
-//	quit = false
-//
-//	n := getShapeName()
-//	switch n {
-//	case "": //Некорректный ввод
-//		return nil, true, false
-//	case "q":
-//		fmt.Println("User requested exit.")
-//		return nil, false, true
-//	default:
-//		if s := shapes.GetShape(n); s == nil {
-//			fmt.Println("Unknown shape")
-//			return nil, true, false
-//		} else {
-//			return s, false, false
-//		}
-//	}
-//}
-
-func main() {
+func handleDimensionsInput(s shapes.Shape) (bool, []float64) {
+	inputPrompt, dimNum := s.DimensionsInputPrompt()
 	for {
-		fmt.Println("Enter type of figure. Enter 'q' to quit:")
-
-		n := getShapeName()
-		if n == "" {
+		fmt.Println(inputPrompt)
+		input, err := consoleHelper.GetConsoleInput(50)
+		if err != nil {
+			fmt.Println(err)
 			continue
-		} else if n == "q" {
-			fmt.Println("User requested exit.")
-			break
 		}
 
-		s := shapes.GetShape(n)
+		if len(input) == 1 && input[0] == "q" {
+			return true, nil
+		}
+
+		if len(input) != dimNum {
+			fmt.Printf("Incorrect input. Got %d dimensions instead of %d.", len(input), dimNum)
+			continue
+		}
+
+		result := make([]float64, len(input))
+		success := true
+		for i, v := range input {
+			f, e := strconv.ParseFloat(v, 64)
+			if e != nil {
+				fmt.Printf("Error: %s\n\n", e)
+				success = false
+				break
+			}
+			result[i] = f
+		}
+
+		if success {
+			return false, result
+		}
+	}
+}
+
+func main() {
+	fmt.Println("MANDATORY WELCOME MESSAGE")
+
+	for {
+		fmt.Println("\nEnter type of figure to proceed with calculations. " +
+			"Enter 'shapes' to get a list of supported shapes. Enter 'q' to quit:")
+
+		input, err := consoleHelper.GetConsoleInput(50)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+
+		handled, quit, msg := parseInitialInput(input)
+		if handled {
+			fmt.Printf("%s\n", msg)
+			if quit {
+				return
+			}
+			continue
+		}
+
+		s := shapes.GetShape(input[0])
 		if s == nil {
 			fmt.Println("Unknown shape")
 			continue
 		}
 
-		//s, retry, quit := getShapeOrCommandInput()
-		//if quit {
-		//	break
-		//} else if retry {
-		//	continue
-		//}
+		quit, dimensions := handleDimensionsInput(s)
+		if quit {
+			fmt.Println(quitMessage)
+			return
+		}
 
-		s.DimensionsInputPrompt()
-		s.GetDimensionsInput()
-		s.PrintCreationText()
+		msg = s.CreateShape(dimensions)
+		fmt.Println(msg)
+
 		shapes.PrintShapeCalculations(s)
 		fmt.Println("")
 		fmt.Println("")

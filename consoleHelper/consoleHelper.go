@@ -1,6 +1,45 @@
 package consoleHelper
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"io"
+	"os"
+	"strings"
+)
+
+func GetConsoleInput(maxLen int) ([]string, error) {
+	readBuffer := make([]byte, maxLen+2) //+2 to take into account CRLF
+	overflowFlag := false
+	overflowError := errors.New("input buffer overflow")
+	inputString := ""
+	for {
+		n, err := os.Stdin.Read(readBuffer)
+		if err != nil && err != io.EOF {
+			return nil, err
+		}
+
+		if n < 2 {
+			if overflowFlag {
+				return nil, overflowError
+			}
+
+			return nil, errors.New("input error")
+		}
+
+		if readBuffer[n-1] == '\n' && readBuffer[n-2] == '\r' {
+			if overflowFlag {
+				return nil, overflowError
+			}
+			inputString = string(readBuffer[:n-2])
+			break
+		}
+
+		overflowFlag = true //not really a happy path, is it?
+	}
+
+	return strings.Fields(inputString), nil
+}
 
 // Эта хрень нарушает принцип DRY, но я пока не понял, как сделать так, чтоб оно
 // само определяло типы. Нужно посмотреть внутрь функций fmt, они это умеют.

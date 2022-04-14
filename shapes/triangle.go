@@ -1,7 +1,6 @@
 package shapes
 
 import (
-	"ShapeCalcWithInterface/consoleHelper"
 	"fmt"
 	"math"
 )
@@ -23,20 +22,11 @@ func (t Triangle) Perimeter() float64 {
 	return t.a + t.b + t.c
 }
 
-func (t Triangle) DimensionsInputPrompt() {
-	fmt.Println("Enter three sides of a triangle (separated with spaces):")
+func (t Triangle) DimensionsInputPrompt() (string, int) {
+	return "Enter three sides of a triangle (separated with spaces):", 3
 }
 
-func (t *Triangle) GetDimensionsInput() {
-	for {
-		r := consoleHelper.HandleUserInputFloat64(3, "Please enter three numbers")
-		if r != nil {
-			t.a, t.b, t.c = r[0], r[1], r[2]
-			break
-		}
-	}
-}
-
-func (t Triangle) PrintCreationText() {
-	fmt.Printf("A Triangle with %f, %f, %f sides is created", t.a, t.b, t.c)
+func (t *Triangle) CreateShape(f []float64) string {
+	t.a, t.b, t.c = f[0], f[1], f[2]
+	return fmt.Sprintf("A Triangle with %g, %g, %g sides is created", t.a, t.b, t.c)
 }
